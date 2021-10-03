@@ -1,6 +1,8 @@
 const express = require('express')
-const app = express.Router()
+const router = express.Router()
 
+const handler = require('../handlers/notification')
 
+router.post('/notification', handler.sendNotification)
 
-module.exports = app
+module.exports = router
