@@ -8,7 +8,7 @@ app.use(cors())
 
 const server = require('http').createServer(app)
 
-app.use('/', require('./router/index'))
+app.use('/api', require('./router/index'))
 
 const port = 8080
 server.listen(port, () => {
