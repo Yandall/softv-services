@@ -1,6 +1,8 @@
 const express = require('express')
-const app = express.Router()
+const router = express.Router()
 
+const handler = require("../handler/materials")
 
+router.post('/materials', handler.newMaterial)
 
-module.exports = app
+module.exports = router
