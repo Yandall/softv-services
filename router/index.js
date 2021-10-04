@@ -1,8 +1,14 @@
 const express = require('express')
 const router = express.Router()
 
-const handler = require("../handler/materials")
+const personHandler = require("../handler/persons")
+const materialHandler = require("../handler/materials")
 
-router.post('/materials', handler.newMaterial)
+router.post('/materials', materialHandler.newMaterial)
+router.post('/persons', personHandler.newPerson)
+router.get('/persons', personHandler.getAllPersons)
+router.put('/persons', personHandler.updatePersons)
+
+
 
 module.exports = router
