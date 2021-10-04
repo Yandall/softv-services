@@ -74,21 +74,11 @@ const getAllDates = (req, res) => {
   }
 };
 
-const updatePersons = (req, res) => {
+const updateDates = (req, res) => {
   try {
     let body = req.body.list;
     console.log(req.body);
-    for (let item of body) {
-      if (item[1].id) {
-        res.status(400).send({
-          success: false,
-          message: "Can't update this person ",
-          error: `Can't change the value of the key: 'id'`,
-        });
-        return;
-      }
-    }
-    let data = _db.getData("persons");
+    let data = _db.getData("dates");
     let countUpdated = 0;
     for (let item of body) {
       if (data.has(item[0])) {
@@ -97,42 +87,22 @@ const updatePersons = (req, res) => {
         countUpdated++;
       }
     }
-    _db.writeDB(data, "persons");
+    _db.writeDB(data, "dates");
     res.status(200).send({
       success: true,
-      message: "persons updated successfully",
+      message: "dates updated successfully",
       info: `Number of items updated: ${countUpdated}`,
     });
   } catch (error) {
     console.error(error);
     res.status(500).send({
       success: false,
-      message: "There was an error trying to update persons.",
+      message: "There was an error trying to update dates.",
       error: error.message,
     });
   }
 };
 
-const getPersonByUuid = (req, res) => {
-  try {
-    
-    let uuid = req.params.uuid;
-    let data = _db.getData("persons");
-    let info = data.get(uuid)
-    res.status(200).send({
-        success: true,
-        message: "Person found succesfully",
-        info,
-    });
-     
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({
-      success: false,
-      message: "There was an error trying to get the person",
-      error: error.message,
-    });
-  }
-};
 
-module.exports = { newDates, getAllDates, updatePersons, getPersonByUuid };
+
+module.exports = { newDates, getAllDates, updateDates};
