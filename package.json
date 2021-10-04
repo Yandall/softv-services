@@ -9,7 +9,6 @@
     "nodemailer": "^6.6.5",
     "nodemon": "^2.0.13"
   },
-  "devDependencies": {},
   "scripts": {
     "dev": "nodemon ./api.js",
     "test": "nodemon api.js"

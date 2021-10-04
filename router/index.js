@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const handler = require('../handlers/notification')
+const handler = require('../handlers/uploads')
 
-router.post('/notification', handler.sendNotification)
+router.post('/upload', handler.uploadFile)
 
 module.exports = router
