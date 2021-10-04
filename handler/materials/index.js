@@ -7,14 +7,14 @@ const getMaterials = (req, res) => {
         data = Array.from(data)
         res.status(200).send({
             success: true,
-            message: "Items fetched successfully",
+            message: "Items fetched successfully.",
             info: data
         })
     } catch (error) {
         console.error(error)
         res.status(500).send({
             success: false, 
-            message: "There was an error trying to fetch all items",
+            message: "There was an error trying to fetch all items.",
             error: error.message
         })
     }
@@ -51,7 +51,7 @@ const newMaterial = (req, res) => {
         _db.writeDB(data, 'materials')
         res.status(200).send({
             success: true,
-            message: "Item created successfully",
+            message: "Item created successfully.",
             info: {key: newUuid, ...newItem}
         })
     }
@@ -72,8 +72,8 @@ const updateMaterials = (req, res) => {
             if (item[1].name) {
                 res.status(400).send({
                     success: false,
-                    message: "Can't update this item ",
-                    error: `Can't change the value of the key: 'name'`
+                    message: "Can't update this item.",
+                    error: `Can't change the value of the key: 'name'.`
                 })
                 return
             }
@@ -90,8 +90,8 @@ const updateMaterials = (req, res) => {
         _db.writeDB(data, 'materials')
         res.status(200).send({
             success: true,
-            message: "Items updated successfully",
-            info: `Number of items updated: ${countUpdated}`
+            message: "Items updated successfully.",
+            info: `Number of items updated: ${countUpdated}.`
         })
     } catch (error) {
         console.error(error)
@@ -123,4 +123,58 @@ const getOneMaterial = (req, res) => {
     }
 }
 
-module.exports = { getMaterials, getOneMaterial, newMaterial, updateMaterials }
+const updateOneMaterial = (req, res) => {
+    try {
+        let body = req.body
+        if (body.name) {
+            res.status(400).send({
+                success: false,
+                message: "Can't update this item",
+                error: `Can't change the value of the key: 'name'.`
+            })
+            return
+        }
+        let uuid = req.params.uuid
+        let data = _db.getData('materials')
+        let oldValue = data.get(uuid)
+        let newItem = {...oldValue, ...body}
+        data.set(uuid, newItem)
+        console.log(data.get(uuid))
+        _db.writeDB(data, 'materials')
+        res.status(200).send({
+            success: true,
+            message: "Item updated successfully.",
+            info: newItem
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            success: false,
+            message: "There was an error trying to update item.",
+            error: error.message
+        })
+    }
+}
+
+const deleteOneMaterial = (req, res) => {
+    try{
+        let uuid = req.params.uuid
+        let data = _db.getData('materials')
+        data.delete(uuid)
+        _db.writeDB(data, 'materials')
+        res.status(200).send({
+            success: true,
+            message: "Item deleted successfully.",
+            info: {}
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            success: false,
+            message: "There was an error trying to delete item.",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { getMaterials, getOneMaterial, newMaterial, updateMaterials, updateOneMaterial, deleteOneMaterial }
