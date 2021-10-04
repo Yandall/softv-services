@@ -1,6 +1,14 @@
 const { uuid } = require("uuidv4");
 const _db = require("../../services/db");
 
+
+/**
+ * create a new person and save it to the map in JSON format 
+ * the person must contains: name, id, phone and email 
+ *
+ * @param {*} req 
+ * @param {*} res 
+ */
 const newPerson = (req, res) => {
   try {
     let body = req.body;
@@ -61,6 +69,11 @@ const newPerson = (req, res) => {
   }
 };
 
+/**
+ * Return all persons from the map in JSON format
+ * @param {*} req 
+ * @param {*} res 
+ */
 const getAllPersons = (req, res) => {
   try {
     let data = _db.getData("persons");
@@ -80,6 +93,12 @@ const getAllPersons = (req, res) => {
   }
 };
 
+/**
+ * Update multiple Persons into the map, It cannot change the ID atribute of the person
+ * @param {*} req 
+ * @param {*} res 
+ * 
+ */
 const updatePersons = (req, res) => {
   try {
     let body = req.body.list;
@@ -119,6 +138,12 @@ const updatePersons = (req, res) => {
   }
 };
 
+
+/**
+ * Return one person from the persons map using the uuid key
+ * @param {*} req 
+ * @param {*} res 
+ */
 const getPersonByUuid = (req, res) => {
   try {
     
