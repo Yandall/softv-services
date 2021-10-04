@@ -83,7 +83,7 @@ const updateMaterials = (req, res) => {
         for (let item of body) {
             if (data.has(item[0])) {
                 let oldItem = data.get(item[0])
-                data.set(item[0], {...oldItem, ...item})
+                data.set(item[0], {...oldItem, ...item[1]})
                 countUpdated++
             }
         }
@@ -96,11 +96,31 @@ const updateMaterials = (req, res) => {
     } catch (error) {
         console.error(error)
         res.status(500).send({
-            success: false, 
+            success: false,
             message: "There was an error trying to update items.",
             error: error.message
         })
     }
 }
 
-module.exports = { getMaterials, newMaterial, updateMaterials }
+const getOneMaterial = (req, res) => {
+    try {
+        let uuid = req.params.uuid
+        let data = _db.getData("materials")
+        let value = data.get(uuid)
+        res.status(200).send({
+            success: true,
+            message: "Item fetch successfully.",
+            info: value
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            success: false,
+            message: "There was an error trying to get item.",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { getMaterials, getOneMaterial, newMaterial, updateMaterials }
