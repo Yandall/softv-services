@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const handler = require("../handler/materials")
+const datesHandler = require("../handler/dates")
 
-router.post('/materials', handler.newMaterial)
+router.post('/dates', datesHandler.newDates)
+router.get('/dates', datesHandler.getAllDates)
 
 module.exports = router
