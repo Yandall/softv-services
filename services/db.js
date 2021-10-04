@@ -1,6 +1,6 @@
 const fs = require("fs")
 
-const getData = (entity, key) => {
+const getData = (entity) => {
     let data = fs.readFileSync(`./data/${entity}.json`)
     let list = JSON.parse(data)
     let db = new Map(list.list)
