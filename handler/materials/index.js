@@ -1,6 +1,25 @@
 const { uuid } = require('uuidv4')
 const _db = require("../../services/db")
 
+const getMaterials = (req, res) => {
+    try {
+        let data = _db.getData("materials")
+        data = Array.from(data)
+        res.status(200).send({
+            success: true,
+            message: "Items fetched successfully",
+            info: data
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            success: false, 
+            message: "There was an error trying to fetch all items",
+            error: error.message
+        })
+    }
+}
+
 const newMaterial = (req, res) => {
     try{
         let body = req.body
@@ -44,8 +63,44 @@ const newMaterial = (req, res) => {
             error: error.message
         })
     }
-     
-
 }
 
-module.exports = { newMaterial }
+const updateMaterials = (req, res) => {
+    try {
+        let body = req.body.list
+        for (let item of body) {
+            if (item[1].name) {
+                res.status(400).send({
+                    success: false,
+                    message: "Can't update this item ",
+                    error: `Can't change the value of the key: 'name'`
+                })
+                return
+            }
+        }
+        let data = _db.getData('materials')
+        let countUpdated = 0
+        for (let item of body) {
+            if (data.has(item[0])) {
+                let oldItem = data.get(item[0])
+                data.set(item[0], {...oldItem, ...item})
+                countUpdated++
+            }
+        }
+        _db.writeDB(data, 'materials')
+        res.status(200).send({
+            success: true,
+            message: "Items updated successfully",
+            info: `Number of items updated: ${countUpdated}`
+        })
+    } catch (error) {
+        console.error(error)
+        res.status(500).send({
+            success: false, 
+            message: "There was an error trying to update items.",
+            error: error.message
+        })
+    }
+}
+
+module.exports = { getMaterials, newMaterial, updateMaterials }
