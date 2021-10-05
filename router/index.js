@@ -4,6 +4,7 @@ const router = express.Router();
 const workHandler = require("../handler/works");
 const materialsHandler = require("../handler/materials")
 const personHandler = require("../handler/persons")
+const datesHandler = require("../handler/dates")
 
 /*Routing to works in lots*/
 router.get("/works", workHandler.getWorks);
@@ -13,6 +14,11 @@ router.put("/works", workHandler.updateWorks);
 router.get("/work/:uuid", workHandler.getWork);
 router.put("/work/:uuid", workHandler.updateWork);
 router.delete("/work/:uuid", workHandler.deleteWork);
+
+/*Routing dates */
+router.post('/dates', datesHandler.newDates)
+router.get('/dates', datesHandler.getAllDates)
+router.put('/dates', datesHandler.updateDates)
 
 /*Routing persons*/
 router.post('/persons', personHandler.newPerson)
