@@ -166,6 +166,12 @@ const getPersonByUuid = (req, res) => {
   }
 };
 
+/**
+ * Delete one person by uuid
+ * @param {*} req 
+ * @param {*} res 
+ * @param {String} req.params.uuid 
+ */
 const deletePersonByUuid = (req, res) => {
   try{
     let uuid = req.params.uuid
