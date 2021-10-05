@@ -166,4 +166,31 @@ const getPersonByUuid = (req, res) => {
   }
 };
 
-module.exports = { newPerson, getAllPersons, updatePersons, getPersonByUuid };
+/**
+ * Delete one person by uuid
+ * @param {*} req 
+ * @param {*} res 
+ * @param {String} req.params.uuid 
+ */
+const deletePersonByUuid = (req, res) => {
+  try{
+    let uuid = req.params.uuid
+    let data = _db.getData("persons")
+    data.delete(uuid) 
+    _db.writeDB(data, "persons")
+    res.status(200).send({
+      success: true,
+      message: "Person was deleted succesfully",
+      info : {},
+  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: "There was an error trying to delete this person",
+      error: error.message,
+    });
+  }
+}
+
+module.exports = { newPerson, getAllPersons, updatePersons, getPersonByUuid, deletePersonByUuid };

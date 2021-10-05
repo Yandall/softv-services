@@ -25,6 +25,7 @@ router.post('/persons', personHandler.newPerson)
 router.get('/persons', personHandler.getAllPersons)
 router.put('/persons', personHandler.updatePersons)
 router.get('/person/:uuid', personHandler.getPersonByUuid)
+router.delete('/person/:uuid', personHandler.deletePersonByUuid)
 
 
 /*Routing materials*/
@@ -34,6 +35,7 @@ router.post('/materials', materialsHandler.newMaterial)
 router.put('/materials', materialsHandler.updateMaterials)
 router.put('/material/:uuid', materialsHandler.updateOneMaterial)
 router.delete('/material/:uuid', materialsHandler.deleteOneMaterial)
+
 
 
 module.exports = router;
