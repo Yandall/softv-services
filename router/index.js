@@ -3,6 +3,7 @@ const router = express.Router();
 
 const workHandler = require("../handler/works");
 const materialsHandler = require("../handler/materials")
+const personHandler = require("../handler/persons")
 
 /*Routing to works in lots*/
 router.get("/works", workHandler.getWorks);
@@ -12,6 +13,13 @@ router.put("/works", workHandler.updateWorks);
 router.get("/work/:uuid", workHandler.getWork);
 router.put("/work/:uuid", workHandler.updateWork);
 router.delete("/work/:uuid", workHandler.deleteWork);
+
+/*Routing persons*/
+router.post('/persons', personHandler.newPerson)
+router.get('/persons', personHandler.getAllPersons)
+router.put('/persons', personHandler.updatePersons)
+router.get('/persons/:uuid', personHandler.getPersonByUuid)
+
 
 /*Routing materials*/
 router.get('/materials', materialsHandler.getMaterials)
