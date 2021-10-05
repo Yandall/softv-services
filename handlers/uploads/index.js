@@ -14,4 +14,11 @@ const uploadFile = (req, res) => {
     error: `The file is called '${response}' `,
   });
 };
-module.exports = { uploadFile };
+
+const getFile = (req, res) => {
+  let name = req.params.name;
+  console.log(name);
+  var readStream = fs.createReadStream("./data/files/" + name);
+  readStream.pipe(res, {ok : true});
+};
+module.exports = { uploadFile, getFile };
