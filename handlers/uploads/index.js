@@ -17,7 +17,7 @@ const uploadFile = (req, res) => {
   res.status(200).send({
     success: true,
     message: "File uploaded",
-    error: `The file is called '${response}' `,
+    file: `The file is called '${response}' `,
   });
 };
 
@@ -32,7 +32,7 @@ const getFile = (req, res) => {
   try {
     fs.readFile(path, function (err, data) {
       if (err) {
-        res.status(500).send({Ok: false, message: "The file does not exist"});
+        res.status(500).send({ Ok: false, message: "The file does not exist" });
       } else {
         var readStream = fs.createReadStream(path);
         readStream.pipe(res);
@@ -42,4 +42,51 @@ const getFile = (req, res) => {
     res.status(500).send({ error });
   }
 };
-module.exports = { uploadFile, getFile };
+
+const updateFile = (req, res) => {
+  let name = req.params.name;
+  let newPath = "./data/files/" + name;
+  console.log("path:", newPath);
+  path = req.files.file.path;
+  let exists = fs.existsSync(path);
+  if (exists) {
+    fs.readFile(path, function (err, data) {
+      fs.writeFile(newPath, data, function (err) {
+        if (err) throw err;
+      });
+    });
+    res.status(200).send({
+      success: true,
+      message: "File uploaded",
+    });
+    return name;
+  } else {
+    res.status(500).send({
+      success: true,
+      message: "Error updating file",
+      error: "File does not exist",
+    });
+  }
+};
+
+const deleteFile = (req, res) => {
+  try {
+    let name = req.params.name;
+    let path = "./data/files/" + name;
+    fs.unlink(path, function (err) {
+      if (err) {
+        res.status(500).send({ Ok: false, message: "The file does not exist" });
+      } else {
+        res.status(200).send({
+          success: true,
+          message: "File deleted",
+          
+        });
+      }
+    });
+  } catch (err) {
+    res.status(500).send({ error });
+  }
+};
+
+module.exports = { uploadFile, getFile, updateFile, deleteFile };
