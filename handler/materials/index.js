@@ -1,6 +1,12 @@
 const { uuid } = require('uuidv4')
 const _db = require("../../services/db")
 
+
+/**
+ * Response with all the data from materials
+ * @param {*} req 
+ * @param {*} res 
+ */
 const getMaterials = (req, res) => {
     try {
         let data = _db.getData("materials")
@@ -20,6 +26,15 @@ const getMaterials = (req, res) => {
     }
 }
 
+/**
+ * Create a new material.
+ * @param {Object} req
+ * @param {Object} req.body
+ * @param {string} req.body.name Contains the name for the new material. It has to be unique.
+ * @param {string} req.body.type Has the type for the new material.
+ * @param {number} req.body.cant It's the amount for the new material. Default is 1.
+ * @param {*} res 
+ */
 const newMaterial = (req, res) => {
     try{
         let body = req.body
@@ -65,6 +80,15 @@ const newMaterial = (req, res) => {
     }
 }
 
+/**
+ * Updates 1 or more materials at the same time.
+ * @param {object} req 
+ * @param {object} req.body
+ * @param {Array} req.body.list It's a list with all the items to be updated. 
+ * The first index is the key and the second it's an object with the values
+ * @param {*} res 
+ * @returns 
+ */
 const updateMaterials = (req, res) => {
     try {
         let body = req.body.list
@@ -103,6 +127,12 @@ const updateMaterials = (req, res) => {
     }
 }
 
+
+/**
+ * Response with the value for the key provided in the params
+ * @param {*} req 
+ * @param {*} res 
+ */
 const getOneMaterial = (req, res) => {
     try {
         let uuid = req.params.uuid
@@ -123,6 +153,14 @@ const getOneMaterial = (req, res) => {
     }
 }
 
+/**
+ * Update one material with the key provided in the
+ * @param {object} req
+ * @param {object} req.body
+ * @param {string} req.body.type Has the type to update.
+ * @param {number} req.body.cant It's the amount to update.
+ * @param {*} res 
+ */
 const updateOneMaterial = (req, res) => {
     try {
         let body = req.body
@@ -156,6 +194,11 @@ const updateOneMaterial = (req, res) => {
     }
 }
 
+/**
+ * Delete one material with the key provided in the params.
+ * @param {*} req 
+ * @param {*} res 
+ */
 const deleteOneMaterial = (req, res) => {
     try{
         let uuid = req.params.uuid
