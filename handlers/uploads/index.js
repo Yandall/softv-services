@@ -1,33 +1,17 @@
-const nodemailer = require("nodemailer");
+const { uuid } = require("uuidv4");
+const fs = require("fs");
+const { saveFile } = require("../../services/fileManager");
 
 const uploadFile = (req, res) => {
-
-    try{fs.readFile(req.files.image.path, function (err, data) {
-        var fileName = req.files.file.name;
-        /// If there's an error
-        if (!fileName) {
-          res.status(400).send({
-              success: true,
-              message: 'Your file dont contain a name'
-          })
-        } else {
-          var newPath = __dirname + "/uploads/fullsize/" + fileName;
-          fs.writeFile(newPath, data, function (err) {
-            res.redirect("/uploads/fullsize/" + fileName);
-          });
-    
-          res.status(200).send({
-              success: false,
-              message: "File uploaded succesfully",
-          })
-        }
-      });}catch(e){
-        res.status(500).send({
-            success: false,
-            message: "Error while uploading file",
-        })
-      }
-  
+  let newUuid = uuid();
+  let ext = req.files.file.name.split(".")[1];
+  let name = newUuid + "." + ext;
+  let path = req.files.file.path;
+  let response = saveFile(name, path);
+  res.status(200).send({
+    success: true,
+    message: "File uploaded",
+    error: `The file is called '${response}' `,
+  });
 };
-
-module.exports = {uploadFile};
+module.exports = { uploadFile };
