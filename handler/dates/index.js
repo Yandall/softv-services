@@ -2,10 +2,18 @@ const { uuid } = require("uuidv4");
 const _db = require("../../services/db");
 
 /**
- * Create multiple dates into the map in JSON format, the date requires a date, hour, description, 
- * address, idPerson, nameAttendant, one record can not have the same date, hour and idPerson at the same time
- * @param {*} req 
+ * Create multiple dates into the map in JSON format 
+ * one record can not have the same date, hour and idPerson at the same time
+ * @param {Object} req Receives all the data for the new date 
+ * @param {Object} req.body
+ * @param {String} req.body.date Contains the day-month-year of the date in string format
+ * @param {String} req.body.hour Contains the hour of the date
+ * @param {String} req.body.description contains a text explaining the subject of the date
+ * @param {String} req.body.address Contains the place where the date will be made
+ * @param {String} req.body.idPerson Has the id of the person who will assit to the date
+ * @param {String} req.body.nameAttendant The name of who attend the date
  * @param {*} res 
+ * 
  */
 const newDates = (req, res) => {
   try {
