@@ -18,7 +18,7 @@ router.delete("/work/:uuid", workHandler.deleteWork);
 router.post('/persons', personHandler.newPerson)
 router.get('/persons', personHandler.getAllPersons)
 router.put('/persons', personHandler.updatePersons)
-router.get('/persons/:uuid', personHandler.getPersonByUuid)
+router.get('/person/:uuid', personHandler.getPersonByUuid)
 
 
 /*Routing materials*/
