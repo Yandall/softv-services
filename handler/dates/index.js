@@ -1,5 +1,5 @@
-const { uuid } = require("uuidv4");
-const _db = require("../../services/db");
+  const { uuid } = require("uuidv4");
+  const _db = require("../../services/db");
 
 /**
  * Create multiple dates into the map in JSON format 
