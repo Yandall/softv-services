@@ -1,14 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const personHandler = require("../handler/persons")
-const materialHandler = require("../handler/materials")
+const ordersHandler = require('../handler/orders')
 
-router.post('/materials', materialHandler.newMaterial)
-router.post('/persons', personHandler.newPerson)
-router.get('/persons', personHandler.getAllPersons)
-router.put('/persons', personHandler.updatePersons)
-
-
+router.get('/orders', ordersHandler.getMaterials)
+router.post('/orders', ordersHandler.newOrder)
+router.post('/order/:uuid', ordersHandler.advanceOrder)
 
 module.exports = router
