@@ -5,6 +5,7 @@ const workHandler = require("../handler/works");
 const materialsHandler = require("../handler/materials")
 const personHandler = require("../handler/persons")
 const datesHandler = require("../handler/dates")
+const shoppingListHandler = require("../handler/shopping_list")
 
 /*Routing to works in lots*/
 router.get("/works", workHandler.getWorks);
@@ -34,6 +35,12 @@ router.post('/materials', materialsHandler.newMaterial)
 router.put('/materials', materialsHandler.updateMaterials)
 router.put('/material/:uuid', materialsHandler.updateOneMaterial)
 router.delete('/material/:uuid', materialsHandler.deleteOneMaterial)
+
+/*Routing shopping lists*/
+router.post('/shopping_list', shoppingListHandler.newShoppingList)
+router.put('/shopping_list/:uuid', shoppingListHandler.updateShoppingListByID)
+router.get('/shopping_list', shoppingListHandler.getAllShoppingList)
+router.get('/shopping_list/:uuid', shoppingListHandler.getShoppingListByID)
 
 
 module.exports = router;
