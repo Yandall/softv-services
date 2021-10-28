@@ -17,7 +17,7 @@ const newShoppingList = (req, res) => {
             return;    
         }
 
-        let data = _db.getData('shoppingList');
+        let data = _db.getData('shopping_list');
         let newUuid = uuid();
         let newShoppingList = {
             shoppingList: body.listItems,
@@ -104,7 +104,7 @@ const updateShoppingListByID = (req, res) => {
       let oldlist = data.get(uuid);
 
       if (oldlist) {
-        data.set(uuid, { ...oldItem, ...listSelected });
+        data.set(uuid, { ...oldlist, ...listSelected });
         _db.writeDB(data, "shopping_list");
         res.status(200).send({
           success: true,
