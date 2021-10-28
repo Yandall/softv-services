@@ -1,4 +1,5 @@
 const { uuid } = require("uuidv4");
+const axios = require("axios");
 const _db = require("../../services/db");
 const moment = require("moment");
 const dataName = "orders";
@@ -28,10 +29,10 @@ const getOrders = (req, res) => {
 };
 
 /** Return a single order
- * @param {Object} req 
+ * @param {Object} req
  * @param {Object} req.params parameteres
  * @param {string} req.params.uuid uuid to search
-*/
+ */
 const getOrder = (req, res) => {
   try {
     let uuid = req.params.uuid;
@@ -177,11 +178,11 @@ const advanceOrder = (req, res) => {
   }
 };
 /** Update a single order
- * @param {Object} req 
+ * @param {Object} req
  * @param {Object} req.body values to update, can not contain items, estimated, hasArrive or history
  * @param {Object} req.params parameteres
  * @param {string} req.params.uuid uuid to search
-*/
+ */
 const updateOrder = (req, res) => {
   try {
     let body = req.body;
@@ -246,10 +247,10 @@ const updateOrder = (req, res) => {
   }
 };
 /** Delete a single order
- * @param {Object} req 
+ * @param {Object} req
  * @param {Object} req.params parameteres
  * @param {string} req.params.uuid uuid to delete
-*/
+ */
 const deleteOrder = (req, res) => {
   try {
     let uuid = req.params.uuid;
@@ -280,4 +281,51 @@ const deleteOrder = (req, res) => {
   }
 };
 
-module.exports = { getOrders, newOrder, advanceOrder, getOrder, updateOrder, deleteOrder };
+const getAddress = (req, res) => {
+  try {
+    let lat = req.params.lat;
+    let lon = req.params.lon;
+    if (!lat || !lon) {
+      res.status(400).send({
+        success: true,
+        message: "Can not get this addres",
+        info: `Lat and lon are required`,
+      });
+    }
+    axios
+      .get(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=AIzaSyDbA7CYNUkU4PUX_06ztTCtMF_rML1VNu8`
+      )
+      .then((response) => {
+        res.status(200).send({
+          success: true,
+          message: "Address succesfully found",
+          data: response.data.results[0].formatted_address,
+        });
+      })
+      .catch((error) => {
+        res.status(500).send({
+            success: false,
+            message: "There was an error trying to get the address.",
+            error: error.message,
+          });
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: "There was an error trying to get the address.",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = {
+  getOrders,
+  newOrder,
+  advanceOrder,
+  getOrder,
+  updateOrder,
+  deleteOrder,
+  getAddress,
+};
